@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kinho • Gestão de Polimento</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="assets/kinho.png">
+  <link rel="apple-touch-icon" href="assets/kinho.png">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="brand">
+      <img src="assets/kinho.png" alt="Logo Kinho" id="logo">
+      <div class="brand-text">
+        <h1>KINHO</h1>
+        <p>Estética Automotiva</p>
+      </div>
+    </div>
+    <nav class="tabs">
+      <button id="btn-cadastro" class="active" aria-controls="tela-cadastro">Cadastro</button>
+      <button id="btn-despesas" aria-controls="tela-despesas">Despesas</button>
+      <button id="btn-relatorio" aria-controls="tela-relatorio">Relatório</button>
+      <button id="btn-config" aria-controls="tela-config">Config.</button>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="card">
+
+    <!-- CADASTRO SERVIÇOS -->
+    <section id="tela-cadastro" class="tela ativa" role="region" aria-label="Cadastro de serviços">
+      <form id="form-servico" autocomplete="off">
+        <div class="grid">
+          <div class="field">
+            <label for="cliente">Cliente</label>
+            <input type="text" id="cliente" required placeholder="Ex: João Silva">
+          </div>
+          <div class="field">
+            <label for="carro">Carro (Modelo/Ano)</label>
+            <input type="text" id="carro" required placeholder="Ex: Civic 2020">
+          </div>
+          <div class="field">
+            <label for="servico">Serviço</label>
+            <input type="text" id="servico" required placeholder="Ex: Polimento Completo">
+          </div>
+          <div class="field">
+            <label for="valor">Valor (R$)</label>
+            <input type="number" id="valor" required min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="data">Data do serviço</label>
+            <input type="date" id="data" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Salvar serviço</button>
+      </form>
+
+      <div class="list-header">
+        <h2>Serviços recentes</h2>
+        <span id="total-geral" class="chip">Total geral: R$ 0,00</span>
+      </div>
+      <ul id="lista-servicos" class="list">
+        <li class="muted">Nenhum serviço cadastrado ainda.</li>
+      </ul>
+    </section>
+
+    <!-- DESPESAS -->
+    <section id="tela-despesas" class="tela" role="region" aria-label="Despesas">
+      <form id="form-despesa" autocomplete="off">
+        <div class="grid">
+          <div class="field">
+            <label for="descricao">Descrição</label>
+            <input type="text" id="descricao" required placeholder="Ex: Polidor, Cera">
+          </div>
+          <div class="field">
+            <label for="valor-despesa">Valor (R$)</label>
+            <input type="number" id="valor-despesa" required min="0" step="0.01" placeholder="0,00">
+          </div>
+          <div class="field">
+            <label for="data-despesa">Data</label>
+            <input type="date" id="data-despesa" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Registrar despesa</button>
+      </form>
+
+      <div class="list-header">
+        <h2>Despesas recentes</h2>
+        <span id="total-despesas" class="chip">Total: R$ 0,00</span>
+      </div>
+      <ul id="lista-despesas" class="list">
+        <li class="muted">Nenhuma despesa registrada.</li>
+      </ul>
+    </section>
+
+    <!-- RELATÓRIO -->
+    <section id="tela-relatorio" class="tela" role="region" aria-label="Relatório">
+      <div class="filters card-inner">
+        <div class="field">
+          <label for="tipo-filtro">Período</label>
+          <select id="tipo-filtro">
+            <option value="dia">Dia</option>
+            <option value="semana" selected>Semana</option>
+            <option value="mes">Mês</option>
+          </select>
+        </div>
+        <div class="field" id="filtro-dia">
+          <label for="data-dia">Escolha o dia</label>
+          <input type="date" id="data-dia">
+        </div>
+        <div class="field" id="filtro-semana">
+          <label for="data-semana">Qualquer data da semana</label>
+          <input type="date" id="data-semana">
+        </div>
+        <div class="field" id="filtro-mes">
+          <label for="data-mes">Escolha o mês</label>
+          <input type="month" id="data-mes">
+        </div>
+        <button id="btn-aplicar-filtro" class="btn-outline">Aplicar</button>
+        <div class="field">
+          <label for="pesquisa-relatorio">Pesquisar (Cliente/Carro)</label>
+          <input type="text" id="pesquisa-relatorio" placeholder="Digite cliente ou carro">
+        </div>
+      </div>
+
+      <div class="summary">
+        <p><strong>Período:</strong> <span id="periodo-relatorio">—</span></p>
+        <p class="big"><strong>Faturamento líquido:</strong> R$ <span id="faturamento-total">0,00</span></p>
+      </div>
+
+      <table id="tabela-relatorio">
+        <thead>
+          <tr>
+            <th>Data</th><th>Cliente</th><th>Carro</th><th>Serviço</th><th>Valor (R$)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td colspan="5" class="muted center">Sem dados.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- CONFIGURAÇÕES -->
+    <section id="tela-config" class="tela" role="region" aria-label="Configurações">
+      <div class="card-inner">
+        <h2>Backup</h2>
+        <button id="btn-exportar" class="btn-outline">Exportar dados</button>
+        <button id="btn-importar" class="btn-outline">Importar dados</button>
+        <input type="file" id="arquivo-importacao" accept="application/json" style="display:none;">
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>© Kinho Estética Automotiva</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
