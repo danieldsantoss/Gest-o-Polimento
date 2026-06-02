@@ -1,8 +1,6 @@
-// Seletores
 const $ = sel => document.querySelector(sel);
 const $$ = sel => document.querySelectorAll(sel);
 
-// Utilitários
 const brMoney = v => Number(v).toFixed(2).replace('.', ',');
 const formatDate = d => new Date(d).toLocaleDateString('pt-BR');
 
@@ -14,42 +12,34 @@ function salvarLocalStorage() {
   localStorage.setItem('despesas', JSON.stringify(despesas));
 }
 
-// --- INICIALIZAÇÃO ---
 window.addEventListener('DOMContentLoaded', () => {
-  // Datas
   $('#data').valueAsDate = new Date();
   $('#data-dia').valueAsDate = new Date();
   $('#data-semana').valueAsDate = new Date();
   $('#data-despesa').valueAsDate = new Date();
   const ym = new Date(); $('#data-mes').value = ym.toISOString().slice(0, 7);
 
-  // Navegação
   $('#btn-cadastro').addEventListener('click', () => show('cadastro'));
   $('#btn-despesas').addEventListener('click', () => show('despesas'));
   $('#btn-relatorio').addEventListener('click', () => { show('relatorio'); aplicarFiltro(); });
   $('#btn-config').addEventListener('click', () => show('config'));
 
-  // Formulários
   $('#form-servico').addEventListener('submit', onSubmitServico);
   $('#form-despesa').addEventListener('submit', onSubmitDespesa);
 
-  // Filtros
   $('#btn-aplicar-filtro').addEventListener('click', aplicarFiltro);
   $('#tipo-filtro').addEventListener('change', updateFilterVisibility);
   updateFilterVisibility();
 
-  // Export/Import
   $('#btn-exportar').addEventListener('click', exportarDados);
   $('#btn-importar').addEventListener('click', () => $('#arquivo-importacao').click());
   $('#arquivo-importacao').addEventListener('change', importarDados);
 
-  // Listas
   atualizarListaServicos();
   atualizarListaDespesas();
   aplicarFiltro();
 });
 
-// --- NAVEGAÇÃO ---
 function show(t) {
   $$('#tela-cadastro, #tela-relatorio, #tela-config, #tela-despesas').forEach(el => el.classList.remove('ativa'));
   $(`#tela-${t}`).classList.add('ativa');
@@ -57,7 +47,6 @@ function show(t) {
   $(`#btn-${t}`).classList.add('active');
 }
 
-// --- SUBMIT SERVIÇO ---
 function onSubmitServico(e) {
   e.preventDefault();
   const cliente = $('#cliente').value.trim();
@@ -81,7 +70,6 @@ function onSubmitServico(e) {
   show('relatorio');
 }
 
-// --- SUBMIT DESPESA ---
 function onSubmitDespesa(e) {
   e.preventDefault();
   const descricao = $('#descricao').value.trim();
@@ -103,7 +91,6 @@ function onSubmitDespesa(e) {
   show('despesas');
 }
 
-// --- LISTAS ---
 function atualizarListaServicos() {
   const ul = $('#lista-servicos');
   ul.innerHTML = '';
@@ -124,7 +111,6 @@ function atualizarListaServicos() {
     ul.appendChild(li);
   });
 
-  // Botões excluir
   $$('.btn-excluir').forEach(btn => {
     btn.addEventListener('click', e => {
       const id = Number(e.target.dataset.id);
@@ -135,7 +121,6 @@ function atualizarListaServicos() {
     });
   });
 
-  // Botões editar
   $$('.btn-editar').forEach(btn => {
     btn.addEventListener('click', e => {
       const id = Number(e.target.dataset.id);
@@ -199,7 +184,6 @@ function atualizarListaDespesas() {
   $('#total-despesas').textContent = `Total: R$ ${brMoney(total)}`;
 }
 
-// --- FILTROS ---
 function updateFilterVisibility() {
   const tipo = $('#tipo-filtro').value;
   $('#filtro-dia').style.display = (tipo === 'dia') ? 'block' : 'none';
@@ -263,7 +247,6 @@ function aplicarFiltro() {
   }
 }
 
-// --- EXPORT/IMPORT ---
 function exportarDados() {
   const blob = new Blob([JSON.stringify({ servicos, despesas }, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
