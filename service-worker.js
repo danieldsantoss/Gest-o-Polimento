@@ -8,7 +8,6 @@ const urlsToCache = [
   './assets/kinho-512.png'
 ];
 
-// Instalando o SW e cacheando arquivos
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -17,12 +16,10 @@ self.addEventListener('install', event => {
   );
 });
 
-// Ativando o SW
 self.addEventListener('activate', event => {
   event.waitUntil(self.clients.claim());
 });
 
-// Interceptando requisições e servindo do cache
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
